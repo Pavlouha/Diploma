@@ -3,7 +3,12 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
+        repositories {
+            maven {
+                url "https://kotlin.bintray.com/kotlinx"
+            }
+        }
+        // Warning: this repository is going to shut down soon
     }
 }
 rootProject.name = "Diploma"

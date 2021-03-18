@@ -10,22 +10,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.popUpTo
 import com.pavelkesler.diploma.R
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 
 @Composable
-fun StartPage() {
+fun StartPage(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(text = "Стартовая страница") },
                 backgroundColor = AmoledBlack,
-              /*  navigationIcon = {
-                    IconButton(onClick = {}) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "")
-                    }
-                } */
             )
         },
         content = {
@@ -40,12 +38,17 @@ fun StartPage() {
                 Spacer(modifier = Modifier.height(1.dp))
                 Text("Пожалуйста, выберите раздел", style = typography.h6)
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /* Do something! */ }) {
+                Button(onClick = { navController.navigate("threadsScreen") {
+                } }) {
                     Text("Алгоритмы на основе потоков")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /* Do something! */ }) {
+                Button(onClick = { navController.navigate("coroutines") }) {
                     Text("Алгоритмы на основе корутин")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = { /* LATER */ }) {
+                    Text("Очистить встроенную базу данных")
                 }
             }
         },
