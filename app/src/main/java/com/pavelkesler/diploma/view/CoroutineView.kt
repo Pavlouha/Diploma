@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.pavelkesler.diploma.R
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 
 @Composable
@@ -19,7 +20,7 @@ fun CoroutineView(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Работа корутин") },
+                title = { Text(text = "Работа корутин", color= Color.White) },
                 backgroundColor = AmoledBlack,
                   navigationIcon = {
                       IconButton(onClick = {
