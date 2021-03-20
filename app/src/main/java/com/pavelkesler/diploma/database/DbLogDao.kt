@@ -1,22 +1,23 @@
 package com.pavelkesler.diploma.database
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DbLogDao {
     @Query("SELECT * FROM primary_table")
     fun getAll(): List<DbLog>
 
-    @Query("SELECT * FROM primary_table WHERE uid IN (:dbLogIds)")
-    fun loadAllByIds(userIds: IntArray): List<DbLog>
-
-    @Query("SELECT * FROM primary_table WHERE date_time")
-    fun findByName(first: String, last: String): DbLog
+    @Query("SELECT * FROM primary_table WHERE uid = :uid")
+    fun getById(uid: Int): DbLog
 
     @Insert
     fun insertAll(vararg dbLogs: DbLog)
 
+    @Insert
+    suspend fun insert(dbLog: DbLog)
+
     @Query("DELETE FROM primary_table")
-    fun delete(dbLog: DbLog)
+   suspend fun delete()
 }
 
