@@ -1,25 +1,26 @@
 package com.pavelkesler.diploma.view
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
-import androidx.navigation.compose.popUpTo
 import com.pavelkesler.diploma.R
+import com.pavelkesler.diploma.database.DbLogViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 
 @Composable
-fun StartPage(navController: NavController) {
+fun StartPage(navController: NavController, viewModel: DbLogViewModel) {
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -48,7 +49,12 @@ fun StartPage(navController: NavController) {
                     Text("Алгоритмы на основе корутин")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /* LATER */ }) {
+                Button(onClick = { viewModel.removeAll()
+                    Toast.makeText(
+                        context,
+                        "Database cleared",
+                        Toast.LENGTH_SHORT
+                    ).show()}) {
                     Text("Очистить встроенную базу данных")
                 }
             }

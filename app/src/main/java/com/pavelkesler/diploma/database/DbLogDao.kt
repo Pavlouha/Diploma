@@ -1,14 +1,15 @@
 package com.pavelkesler.diploma.database
 
-import androidx.room.*
-import kotlinx.coroutines.flow.Flow
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 
 @Dao
 interface DbLogDao {
-    @Query("SELECT * FROM primary_table")
+    @Query("SELECT * FROM dblog")
     fun getAll(): List<DbLog>
 
-    @Query("SELECT * FROM primary_table WHERE uid = :uid")
+    @Query("SELECT * FROM dblog WHERE uid = :uid")
     fun getById(uid: Int): DbLog
 
     @Insert
@@ -17,7 +18,7 @@ interface DbLogDao {
     @Insert
     suspend fun insert(dbLog: DbLog)
 
-    @Query("DELETE FROM primary_table")
+    @Query("DELETE FROM dblog")
    suspend fun delete()
 }
 

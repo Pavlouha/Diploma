@@ -1,19 +1,17 @@
 package com.pavelkesler.diploma.view
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import com.pavelkesler.diploma.R
-import com.pavelkesler.diploma.ui.theme.AmoledBlack
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.navigate
+import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable
 fun CoroutineView(navController: NavController) {
@@ -48,12 +46,8 @@ fun CoroutineView(navController: NavController) {
                     Text("Загрузка большого JSON")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /* Do something! */ }) {
-                    Text("Запись в базу данных")
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /* Do something! */ }) {
-                    Text("Чтение из базы данных")
+                Button(onClick = { navController.navigate("coroutinesDatabase") }) {
+                    Text("Работа с базами данных")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { /* Do something! */ }) {

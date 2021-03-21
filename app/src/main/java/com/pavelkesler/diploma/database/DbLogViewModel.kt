@@ -34,9 +34,9 @@ init {
         print("Inserting dbLog $uid")
         // Generate ID in a simple way - from timestamp.
         val dbLogObj = DbLog(
-            uid, event, LocalDateTime.now())
+            uid, event, LocalDateTime.now().toString())
 
-        logs = logs + listOf(dbLogObj)
+        logs += listOf(dbLogObj)
         GlobalScope.launch { db.dbLogDao().insert(dbLogObj) }
     }
 
