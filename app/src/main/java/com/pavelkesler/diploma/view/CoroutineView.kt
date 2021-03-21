@@ -36,22 +36,22 @@ fun CoroutineView(navController: NavController) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text("Нажмите на кнопку, чтобы запустить", style = typography.h6)
+                Text("Нажмите, чтобы открыть:", style = typography.h6)
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { /* Do something! */ }) {
                     Text("Http-запросы")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { /* Do something! */ }) {
-                    Text("Загрузка большого JSON")
+                    Text("Загрузку большого JSON")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { navController.navigate("coroutinesDatabase") }) {
-                    Text("Работа с базами данных")
+                    Text("Работу с базами данных")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { /* Do something! */ }) {
-                    Text("Работа с шифрованием")
+                    Text("Работу с шифрованием")
                 }
             }
         },

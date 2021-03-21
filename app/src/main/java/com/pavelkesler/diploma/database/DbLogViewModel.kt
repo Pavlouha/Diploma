@@ -36,7 +36,7 @@ init {
         val dbLogObj = DbLog(
             uid, event, LocalDateTime.now().toString())
 
-        logs += listOf(dbLogObj)
+        logs = logs + listOf(dbLogObj)
         GlobalScope.launch { db.dbLogDao().insert(dbLogObj) }
     }
 
