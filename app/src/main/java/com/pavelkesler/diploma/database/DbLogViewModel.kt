@@ -31,7 +31,7 @@ init {
 
     fun addDbLog(event: String) {
         val uid = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
-        print("Inserting dbLog $uid")
+        println("Inserting dbLog $uid")
         // Generate ID in a simple way - from timestamp.
         val dbLogObj = DbLog(
             uid, event, LocalDateTime.now().toString())
@@ -41,6 +41,7 @@ init {
     }
 
     fun removeAll() {
+        println("Deleting all logs")
         logs = listOf()
         GlobalScope.launch { db.dbLogDao().delete() }
     }

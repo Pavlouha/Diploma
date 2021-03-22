@@ -38,8 +38,8 @@ fun CoroutineView(navController: NavController) {
             ) {
                 Text("Нажмите, чтобы открыть:", style = typography.h6)
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /* Do something! */ }) {
-                    Text("Http-запросы")
+                Button(onClick = { navController.navigate("coroutinesImages") }) {
+                    Text("Http-изображения")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { /* Do something! */ }) {

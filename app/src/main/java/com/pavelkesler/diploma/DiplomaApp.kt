@@ -6,19 +6,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pavelkesler.diploma.database.DbLogViewModel
-import com.pavelkesler.diploma.view.CoroutineView
-import com.pavelkesler.diploma.view.DbCoroutineView
-import com.pavelkesler.diploma.view.StartPage
-import com.pavelkesler.diploma.view.ThreadView
+import com.pavelkesler.diploma.network.ImageParseViewModel
+import com.pavelkesler.diploma.view.*
 
 @Composable
-fun DiplomaApp(viewModel: DbLogViewModel) {
+fun DiplomaApp(dbViewModel: DbLogViewModel, imageViewModel: ImageParseViewModel) {
     val navController = rememberNavController()
 
     MaterialTheme {
         NavHost(navController = navController, startDestination = "home") {
             composable("home") {
-                StartPage(navController, viewModel)
+                StartPage(navController, dbViewModel)
             }
             composable("threadsScreen") {
                 ThreadView(navController)
@@ -27,7 +25,10 @@ fun DiplomaApp(viewModel: DbLogViewModel) {
                 CoroutineView(navController)
             }
             composable("coroutinesDatabase") {
-                DbCoroutineView(navController,viewModel.logs, viewModel)
+                DbCoroutineView(navController,dbViewModel.logs, dbViewModel)
+            }
+            composable("coroutinesImages") {
+                ImageCoroutineView(navController, imageViewModel.images, imageViewModel)
             }
         }
     }

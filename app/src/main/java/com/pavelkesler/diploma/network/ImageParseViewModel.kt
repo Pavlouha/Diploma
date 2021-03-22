@@ -1,30 +1,50 @@
 package com.pavelkesler.diploma.network
 
 import android.app.Application
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.media.Image
 import android.widget.ImageView
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.pavelkesler.diploma.database.DbLog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.lang.System.load
+import java.net.URL
+import java.time.LocalDateTime
 
 class ImageParseViewModel (application: Application) : AndroidViewModel(application) {
 
-    val imgurl = "https://via.placeholder.com/600/771796"
+    private val imgurl: URL = URL("https://png.pngtree.com/element_our/png/20181227/marker-glyph-black-icon-png_293085.jpg")
 
-    var images by mutableStateOf(listOf<Image>())
+    var images by mutableStateOf(listOf<ImageBitmap>())
         private set
 
     init {
         GlobalScope.launch {
-            val item =
 
-            viewModelScope.launch { images = images + listOf(item) }
+            val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
+            viewModelScope.launch { images = listOf(item) }
         }
+    }
+
+    fun addImage() {
+
+        println("Adding image")
+
+        GlobalScope.launch {
+            val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
+            images = images + listOf(item)
+        }
+    }
+
+    fun removeAll() {
+        println("Deleting all images")
+        images = listOf()
     }
 }
