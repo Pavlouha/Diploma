@@ -50,7 +50,7 @@ fun CoroutineView(navController: NavController) {
                     Text("Работу с базами данных")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /* Do something! */ }) {
+                Button(onClick = { navController.navigate("coroutinesCrypto") }) {
                     Text("Работу с шифрованием")
                 }
             }
