@@ -42,7 +42,7 @@ fun CoroutineView(navController: NavController) {
                     Text("Http-изображения")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /* Do something! */ }) {
+                Button(onClick = { navController.navigate("coroutinesJSON") }) {
                     Text("Загрузку большого JSON")
                 }
                 Spacer(modifier = Modifier.height(16.dp))

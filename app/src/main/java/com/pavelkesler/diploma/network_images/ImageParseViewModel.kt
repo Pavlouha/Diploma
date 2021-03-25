@@ -1,10 +1,7 @@
-package com.pavelkesler.diploma.network
+package com.pavelkesler.diploma.network_images
 
 import android.app.Application
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.media.Image
-import android.widget.ImageView
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,11 +9,9 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.pavelkesler.diploma.database.DbLog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.net.URL
-import java.time.LocalDateTime
 
 class ImageParseViewModel (application: Application) : AndroidViewModel(application) {
 

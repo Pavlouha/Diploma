@@ -8,7 +8,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import com.pavelkesler.diploma.database.DbLogViewModel
 import com.pavelkesler.diploma.encrypt.CryptoViewModel
-import com.pavelkesler.diploma.network.ImageParseViewModel
+import com.pavelkesler.diploma.jsons.JsonParsingViewModel
+import com.pavelkesler.diploma.network_images.ImageParseViewModel
 import com.pavelkesler.diploma.ui.theme.DiplomaTheme
 
 
@@ -20,12 +21,14 @@ class MainActivity : ComponentActivity() {
 
     private val cryptoViewModel by viewModels<CryptoViewModel>()
 
+    private val jsonParseViewModel by viewModels<JsonParsingViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             DiplomaTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    DiplomaApp(dbLogViewModel, imageParseViewModel, cryptoViewModel)
+                    DiplomaApp(dbLogViewModel, imageParseViewModel, cryptoViewModel, jsonParseViewModel)
                 }
             }
         }
