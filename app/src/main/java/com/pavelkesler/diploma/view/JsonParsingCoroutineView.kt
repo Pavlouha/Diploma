@@ -49,6 +49,7 @@ fun JsonParsingCoroutineView(navController: NavController, datas: List<PhotoMode
                     Text("Очистить экран")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
+               if (jsonParsingViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 LazyColumn {
                     items(datas) {
                         Text(text = it.img_src, modifier = Modifier

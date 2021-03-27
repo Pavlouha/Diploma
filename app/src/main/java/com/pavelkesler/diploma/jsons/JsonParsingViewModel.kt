@@ -13,15 +13,19 @@ class JsonParsingViewModel (application: Application) : AndroidViewModel(applica
 
     private val url: String = "https://android-kotlin-fun-mars-server.appspot.com/"
 
-    val retrofitService: PhotoInterface
+    private val retrofitService: PhotoInterface
         get() = RetrofitClient.getClient(url).create(PhotoInterface::class.java)
 
     var photos by mutableStateOf(mutableListOf<PhotoModel>())
         private set
 
+    var loading by mutableStateOf(mutableListOf<Boolean>())
+        private set
+
     init {
         GlobalScope.launch {
-            viewModelScope.launch { photos = mutableListOf() }
+            viewModelScope.launch { photos = mutableListOf()
+                loading = mutableListOf(false) }
         }
     }
 
@@ -30,15 +34,20 @@ class JsonParsingViewModel (application: Application) : AndroidViewModel(applica
         println("Parsing big json")
 
         GlobalScope.launch {
+            loading = mutableListOf(true)
             val items = retrofitService.getPhotoList().execute().body()
-            if (items != null) {
-                photos = items
+            viewModelScope.launch {
+                if (items != null) {
+                    photos = items
+                    loading = mutableListOf(false)
+                }
             }
+
         }
     }
 
     fun removeAll() {
         println("Deleting all jsons")
-        photos = mutableListOf<PhotoModel>()
+        photos = mutableListOf()
     }
 }
