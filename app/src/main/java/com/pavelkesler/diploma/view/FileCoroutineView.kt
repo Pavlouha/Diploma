@@ -1,5 +1,7 @@
 package com.pavelkesler.diploma.view
 
+import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,18 +12,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.pavelkesler.diploma.jsons.JsonParsingViewModel
-import com.pavelkesler.diploma.jsons.PhotoModel
+import com.pavelkesler.diploma.files.FileWorkViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
+import java.time.LocalDateTime
 
 @Composable
-fun JsonParsingCoroutineView(navController: NavController, datas: List<PhotoModel>, jsonParsingViewModel: JsonParsingViewModel) {
+fun FileCoroutineView(navController: NavController, readFileText: List<String>, fileWorkViewModel: FileWorkViewModel) {
+    val context: Context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Обработка JSON", color= Color.White) },
+                title = { Text(text = "Чтение файла и запись в файл", color= Color.White) },
                 backgroundColor = AmoledBlack,
                 navigationIcon = {
                     IconButton(onClick = {
@@ -41,21 +45,21 @@ fun JsonParsingCoroutineView(navController: NavController, datas: List<PhotoMode
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { jsonParsingViewModel.parseJson() }) {
+                Button(onClick = { fileWorkViewModel.writeIntoFile("Written ${LocalDateTime.now()}", context) }) {
                     Text("Заполнить данными")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { jsonParsingViewModel.removeAll() }) {
-                    Text("Очистить экран")
+                Button(onClick = { fileWorkViewModel.removeAll(context) }) {
+                    Text("Очистить файл")
                 }
-                Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn {
-                    items(datas) {
-                        Text(text = it.img_src, modifier = Modifier
+                    items(readFileText) {
+                        Text(text = it, modifier = Modifier
                             .padding(16.dp, 4.dp, 4.dp, 4.dp))
                         Spacer(modifier = Modifier.height(5.dp))
                     }
                 }
+
             }
         },
     )

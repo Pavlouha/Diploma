@@ -38,6 +38,7 @@ init {
 
         logs = logs + listOf(dbLogObj)
         GlobalScope.launch { db.dbLogDao().insert(dbLogObj) }
+
     }
 
     fun removeAll() {
