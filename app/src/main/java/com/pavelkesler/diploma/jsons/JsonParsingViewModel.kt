@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.pavelkesler.diploma.ProcessNumber
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
@@ -31,27 +32,30 @@ class JsonParsingViewModel (application: Application) : AndroidViewModel(applica
     }
 
     fun parseJson(coroutined: Boolean) {
+        loading = mutableListOf(true)
         if (coroutined) {
-            println("Parsing JSON, coroutine")
-            GlobalScope.launch {
-                loading = mutableListOf(true)
-                val items = retrofitService.getPhotoList().execute().body()
-                viewModelScope.launch {
-                    if (items != null) {
-                        photos = items
+            for (i in 0..ProcessNumber) {
+                GlobalScope.launch {
+                    println("Parsing JSON, coroutine $i")
+                    val items = retrofitService.getPhotoList().execute().body()
+                    viewModelScope.launch {
+                        if (items != null) {
+                            photos = (photos + items).toMutableList()
+                        }
                     }
-                    loading = mutableListOf(false)
                 }
+                if (i== ProcessNumber) loading = mutableListOf(false)
             }
         } else {
-            println("Parsing JSON, thread")
-            thread(start = true) {
-                    loading = mutableListOf(true)
+            for (i in 0..ProcessNumber) {
+                thread(start = true) {
+                    println("Parsing JSON, thread $i")
                     val items = retrofitService.getPhotoList().execute().body()
-                        if (items != null) {
-                            photos = items
-                        }
-                    loading = mutableListOf(false)
+                    if (items != null) {
+                        photos = (photos + items).toMutableList()
+                    }
+                }
+                if (i== ProcessNumber) loading = mutableListOf(false)
             }
         }
     }

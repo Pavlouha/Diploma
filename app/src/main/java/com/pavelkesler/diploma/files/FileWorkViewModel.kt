@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.pavelkesler.diploma.ProcessNumber
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -30,26 +31,35 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
     fun writeIntoFile(value: String, context: Context, coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
-            GlobalScope.launch {
-                println("Writing into file (Coroutine)")
-                context.openFileOutput("filewrite.txt", Context.MODE_PRIVATE).use {
-                    it.write(textRead[0].toByteArray() + value.toByteArray())
+            for (i in 0..ProcessNumber) {
+                GlobalScope.launch {
+                    println("Writing into file (Coroutine) $i")
+                    context.openFileOutput("filewrite.txt", Context.MODE_APPEND).use {
+                        it.write(value.toByteArray())
+                    }
+                    if (i== ProcessNumber) {
+                        val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
+                        viewModelScope.launch {
+                            textRead = listOf(read)
+                            loading = mutableListOf(false)
+                        }
+                    }
                 }
-                val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
-                viewModelScope.launch {
-                    textRead = listOf(read)
-                    loading = mutableListOf(false)
-                }
+
             }
         } else {
-            thread(start = true) {
-                println("Writing into file (Thread)")
-                    context.openFileOutput("filewrite.txt", Context.MODE_PRIVATE).use {
-                        it.write(textRead[0].toByteArray() + value.toByteArray())
+            for (i in 0..ProcessNumber) {
+                thread(start = true) {
+                    println("Writing into file (Thread) $i")
+                    context.openFileOutput("filewrite.txt", Context.MODE_APPEND).use {
+                        it.write(value.toByteArray())
                     }
-                    val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
+                    if (i== ProcessNumber) {
+                        val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
                         textRead = listOf(read)
                         loading = mutableListOf(false)
+                    }
+                }
             }
         }
     }

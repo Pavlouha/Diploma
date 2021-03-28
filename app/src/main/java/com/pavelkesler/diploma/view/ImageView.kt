@@ -58,8 +58,7 @@ fun ImageCoroutineView(navController: NavController, datas: List<ImageBitmap>, i
                 if (imageViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 LazyColumn {
                     items(datas) {
-                       androidx.compose.foundation.Image(bitmap = it, contentDescription = "")
-                        Spacer(modifier = Modifier.height(5.dp))
+                       androidx.compose.foundation.Image(bitmap = it, contentDescription = "",)
                     }
                 }
             }

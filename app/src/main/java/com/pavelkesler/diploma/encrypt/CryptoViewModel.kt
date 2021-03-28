@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.pavelkesler.diploma.ProcessNumber
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.security.MessageDigest
@@ -44,22 +45,27 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
     fun addImage(coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
-            println("Encrypting value, coroutine")
-            GlobalScope.launch {
-                val key: SecretKey = keygen.generateKey()
-                val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
-                cipher.init(Cipher.ENCRYPT_MODE, key)
-                val ciphertext: ByteArray = cipher.doFinal(encryptString)
-                val iv: ByteArray = cipher.iv
+            for (i in 0..ProcessNumber) {
+                println("Encrypting value, coroutine $i")
+                GlobalScope.launch {
+                    val key: SecretKey = keygen.generateKey()
+                    val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+                    cipher.init(Cipher.ENCRYPT_MODE, key)
+                    val ciphertext: ByteArray = cipher.doFinal(encryptString)
+                    val iv: ByteArray = cipher.iv
 
-                val md = MessageDigest.getInstance("SHA-256")
-                val digest: ByteArray = md.digest(ciphertext)
-                values = values + listOf(iv)
-                loading = mutableListOf(false)
+                    val md = MessageDigest.getInstance("SHA-256")
+                    val digest: ByteArray = md.digest(ciphertext)
+                    viewModelScope.launch {
+                        values = values + listOf(iv)
+                    }
+                }
+                if (i==ProcessNumber) loading = mutableListOf(false)
             }
         } else {
-            thread(start = true) {
-                println("Encrypting value, thread")
+            for (i in 0..ProcessNumber) {
+                thread(start = true) {
+                    println("Encrypting value, thread $i")
                     val key: SecretKey = keygen.generateKey()
                     val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
                     cipher.init(Cipher.ENCRYPT_MODE, key)
@@ -70,6 +76,8 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
                     val digest: ByteArray = md.digest(ciphertext)
                     values = values + listOf(iv)
                     loading = mutableListOf(false)
+                }
+                if (i==ProcessNumber) loading = mutableListOf(false)
             }
         }
     }

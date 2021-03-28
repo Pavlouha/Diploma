@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.pavelkesler.diploma.ProcessNumber
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.net.URL
@@ -16,7 +17,7 @@ import kotlin.concurrent.thread
 
 class ImageParseViewModel (application: Application) : AndroidViewModel(application) {
 
-    private val imgurl: URL = URL("https://png.pngtree.com/element_our/png/20181227/marker-glyph-black-icon-png_293085.jpg")
+    private val imgurl: URL = URL("https://www.setaswall.com/wp-content/uploads/2017/03/Artistic-Landscape-4K-Wallpaper-3840x2160-768x432.jpg")
 
     var images by mutableStateOf(listOf<ImageBitmap>())
         private set
@@ -25,31 +26,32 @@ class ImageParseViewModel (application: Application) : AndroidViewModel(applicat
         private set
 
     init {
-        GlobalScope.launch {
-            val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
             viewModelScope.launch {
-                images = listOf(item)
+                images = listOf()
                 loading = mutableListOf(false)
             }
-        }
     }
 
     fun addImage(coroutined: Boolean) {
+        loading = mutableListOf(true)
         if (coroutined) {
-            println("Adding image by Coroutine")
-            loading = mutableListOf(true)
-            GlobalScope.launch {
-                val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
-                images = images + listOf(item)
-                loading = mutableListOf(false)
-            }
-        } else {
-            println("Adding image by Thread")
-            loading = mutableListOf(true)
-            thread(start = true) {
+            for (i in 0..ProcessNumber) {
+                println("Adding image by Coroutine $i")
+                GlobalScope.launch {
                     val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
                     images = images + listOf(item)
-                    loading = mutableListOf(false)
+                    if (i==ProcessNumber) loading = mutableListOf(false)
+                }
+
+            }
+        } else {
+            for (i in 0..ProcessNumber) {
+                println("Adding image by Thread $i")
+                thread(start = true) {
+                    val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
+                    images = images + listOf(item)
+                    if (i==ProcessNumber) loading = mutableListOf(false)
+                }
             }
         }
     }
