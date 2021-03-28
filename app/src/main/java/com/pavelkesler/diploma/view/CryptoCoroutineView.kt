@@ -47,6 +47,7 @@ fun CryptoCoroutineView(navController: NavController, datas: List<ByteArray>, im
                 Button(onClick = { imageViewModel.removeAll() }) {
                     Text("Очистить экран")
                 }
+                if (imageViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn {
                     items(datas) {

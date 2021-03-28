@@ -44,6 +44,7 @@ fun DbCoroutineView(navController: NavController, datas: List<DbLog>, viewModel:
                 Button(onClick = { viewModel.addDbLog("Entry added") }) {
                     Text("Заполнить данными")
                 }
+                if (viewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 Text("Данные в базе:", style = typography.h6)
                 LazyColumn {
                     items(datas) {

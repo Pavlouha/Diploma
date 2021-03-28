@@ -18,29 +18,34 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
     var textRead by mutableStateOf(listOf<String>())
         private set
 
+    var loading by mutableStateOf(mutableListOf<Boolean>())
+        private set
+
     init {
         viewModelScope.launch {
             textRead = listOf("")
+            loading = mutableListOf(false)
         }
     }
 
     fun writeIntoFile(value: String, context: Context) {
-
+        println("Writing into file")
+        loading = mutableListOf(true)
         GlobalScope.launch {
-            println("Writing into file")
             context.openFileOutput("filewrite.txt", Context.MODE_PRIVATE).use {
                 it.write(textRead[0].toByteArray() + value.toByteArray())
             }
            val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
             viewModelScope.launch {
                 textRead = listOf(read)
+                loading = mutableListOf(false)
             }
         }
     }
 
     fun readFromFile(context: Context) {
+        println("Read file")
         GlobalScope.launch {
-            println("Read file")
             try {
                 val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
                 viewModelScope.launch {
@@ -54,9 +59,9 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun removeAll(context: Context) {
+        println("Clearing file")
         textRead = listOf("")
         GlobalScope.launch {
-            println("Clearing file")
             val file = File(context.filesDir, "filewrite.txt")
             file.delete()
         }

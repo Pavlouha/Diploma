@@ -52,6 +52,7 @@ fun FileCoroutineView(navController: NavController, readFileText: List<String>, 
                 Button(onClick = { fileWorkViewModel.removeAll(context) }) {
                     Text("Очистить файл")
                 }
+                if (fileWorkViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 LazyColumn {
                     items(readFileText) {
                         Text(text = it, modifier = Modifier

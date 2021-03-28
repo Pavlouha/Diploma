@@ -22,14 +22,21 @@ private val db = Room.databaseBuilder(
 init {
     GlobalScope.launch {
         val items = db.dbLogDao().getAll()
-        viewModelScope.launch { logs = items }
+        viewModelScope.launch {
+            logs = items
+            loading = mutableListOf(false)
+        }
     }
 }
 
     var logs by mutableStateOf(listOf<DbLog>())
         private set
 
+    var loading by mutableStateOf(mutableListOf<Boolean>())
+        private set
+
     fun addDbLog(event: String) {
+        loading = mutableListOf(true)
         val uid = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
         println("Inserting dbLog $uid")
         // Generate ID in a simple way - from timestamp.
@@ -37,7 +44,10 @@ init {
             uid, event, LocalDateTime.now().toString())
 
         logs = logs + listOf(dbLogObj)
-        GlobalScope.launch { db.dbLogDao().insert(dbLogObj) }
+        loading = mutableListOf(false)
+        GlobalScope.launch {
+            db.dbLogDao().insert(dbLogObj)
+        }
 
     }
 

@@ -20,21 +20,26 @@ class ImageParseViewModel (application: Application) : AndroidViewModel(applicat
     var images by mutableStateOf(listOf<ImageBitmap>())
         private set
 
+    var loading by mutableStateOf(mutableListOf<Boolean>())
+        private set
+
     init {
         GlobalScope.launch {
-
             val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
-            viewModelScope.launch { images = listOf(item) }
+            viewModelScope.launch {
+                images = listOf(item)
+                loading = mutableListOf(false)
+            }
         }
     }
 
     fun addImage() {
-
         println("Adding image")
-
+        loading = mutableListOf(true)
         GlobalScope.launch {
             val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
             images = images + listOf(item)
+            loading = mutableListOf(false)
         }
     }
 
