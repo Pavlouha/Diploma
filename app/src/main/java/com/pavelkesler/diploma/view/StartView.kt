@@ -24,7 +24,7 @@ fun StartPage(navController: NavController, viewModel: DbLogViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Стартовая страница", color= Color.White) },
+                title = { Text(text = "Добро пожаловать", color= Color.White) },
                 backgroundColor = AmoledBlack,
             )
         },
@@ -36,8 +36,6 @@ fun StartPage(navController: NavController, viewModel: DbLogViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(painter  = painterResource(id = R.drawable.a), contentDescription = "")
-                Text("Добро пожаловать!", style = typography.h6)
-                Spacer(modifier = Modifier.height(1.dp))
                 Text("Пожалуйста, выберите раздел", style = typography.h6)
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { navController.navigate("threadsScreen") {
