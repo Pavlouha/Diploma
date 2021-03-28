@@ -7,11 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.pavelkesler.diploma.database.DbLog
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
-import java.lang.Exception
+import kotlin.concurrent.thread
 
 class FileWorkViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -28,17 +27,29 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun writeIntoFile(value: String, context: Context) {
-        println("Writing into file")
+    fun writeIntoFile(value: String, context: Context, coroutined: Boolean) {
         loading = mutableListOf(true)
-        GlobalScope.launch {
-            context.openFileOutput("filewrite.txt", Context.MODE_PRIVATE).use {
-                it.write(textRead[0].toByteArray() + value.toByteArray())
+        if (coroutined) {
+            GlobalScope.launch {
+                println("Writing into file (Coroutine)")
+                context.openFileOutput("filewrite.txt", Context.MODE_PRIVATE).use {
+                    it.write(textRead[0].toByteArray() + value.toByteArray())
+                }
+                val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
+                viewModelScope.launch {
+                    textRead = listOf(read)
+                    loading = mutableListOf(false)
+                }
             }
-           val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
-            viewModelScope.launch {
-                textRead = listOf(read)
-                loading = mutableListOf(false)
+        } else {
+            thread(start = true) {
+                println("Writing into file (Thread)")
+                    context.openFileOutput("filewrite.txt", Context.MODE_PRIVATE).use {
+                        it.write(textRead[0].toByteArray() + value.toByteArray())
+                    }
+                    val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
+                        textRead = listOf(read)
+                        loading = mutableListOf(false)
             }
         }
     }
@@ -53,7 +64,7 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
                 }
             } catch (e: Exception) {
                 println(e)
-                writeIntoFile("", context)
+                writeIntoFile("", context, true)
             }
         }
     }

@@ -12,6 +12,7 @@ import java.security.MessageDigest
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
+import kotlin.concurrent.thread
 
 class CryptoViewModel (application: Application) : AndroidViewModel(application) {
 
@@ -40,20 +41,36 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun addImage() {
-        println("Encrypting value")
+    fun addImage(coroutined: Boolean) {
         loading = mutableListOf(true)
-        GlobalScope.launch {
-            val key: SecretKey = keygen.generateKey()
-            val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
-            cipher.init(Cipher.ENCRYPT_MODE, key)
-            val ciphertext: ByteArray = cipher.doFinal(encryptString)
-            val iv: ByteArray = cipher.iv
+        if (coroutined) {
+            println("Encrypting value, coroutine")
+            GlobalScope.launch {
+                val key: SecretKey = keygen.generateKey()
+                val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+                cipher.init(Cipher.ENCRYPT_MODE, key)
+                val ciphertext: ByteArray = cipher.doFinal(encryptString)
+                val iv: ByteArray = cipher.iv
 
-            val md = MessageDigest.getInstance("SHA-256")
-            val digest: ByteArray = md.digest(ciphertext)
-            values = values + listOf(iv)
-            loading = mutableListOf(false)
+                val md = MessageDigest.getInstance("SHA-256")
+                val digest: ByteArray = md.digest(ciphertext)
+                values = values + listOf(iv)
+                loading = mutableListOf(false)
+            }
+        } else {
+            thread(start = true) {
+                println("Encrypting value, thread")
+                    val key: SecretKey = keygen.generateKey()
+                    val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
+                    cipher.init(Cipher.ENCRYPT_MODE, key)
+                    val ciphertext: ByteArray = cipher.doFinal(encryptString)
+                    val iv: ByteArray = cipher.iv
+
+                    val md = MessageDigest.getInstance("SHA-256")
+                    val digest: ByteArray = md.digest(ciphertext)
+                    values = values + listOf(iv)
+                    loading = mutableListOf(false)
+            }
         }
     }
 

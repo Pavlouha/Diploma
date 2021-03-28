@@ -14,11 +14,11 @@ import androidx.navigation.compose.navigate
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable
-fun CoroutineView(navController: NavController) {
+fun MainMenuView(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Работа корутин", color= Color.White) },
+                title = { Text(text = "Главное меню", color= Color.White) },
                 backgroundColor = AmoledBlack,
                   navigationIcon = {
                       IconButton(onClick = {
@@ -38,23 +38,23 @@ fun CoroutineView(navController: NavController) {
             ) {
                 Text("Нажмите, чтобы открыть:", style = typography.h6)
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { navController.navigate("coroutinesImages") }) {
-                    Text("Http-изображения")
+                Button(onClick = { navController.navigate("images") }) {
+                    Text("Изображения из Сети")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { navController.navigate("coroutinesJSON") }) {
-                    Text("Загрузку большого JSON")
+                Button(onClick = { navController.navigate("JSONs") }) {
+                    Text("Загрузку JSON")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { navController.navigate("coroutinesDatabase") }) {
+                Button(onClick = { navController.navigate("database") }) {
                     Text("Работу с базами данных")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { navController.navigate("coroutinesCrypto") }) {
+                Button(onClick = { navController.navigate("crypto") }) {
                     Text("Работу с шифрованием")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { navController.navigate("coroutinesFiles") }) {
+                Button(onClick = { navController.navigate("files") }) {
                     Text("Работу с файлами")
                 }
             }

@@ -8,7 +8,9 @@ import androidx.lifecycle.*
 import androidx.room.Room
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.time.LocalDateTime
+import kotlin.concurrent.thread
 
 class DbLogViewModel(application: Application) : AndroidViewModel(application){
 
@@ -35,7 +37,7 @@ init {
     var loading by mutableStateOf(mutableListOf<Boolean>())
         private set
 
-    fun addDbLog(event: String) {
+    fun addDbLog(event: String, coroutined: Boolean) {
         loading = mutableListOf(true)
         val uid = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
         println("Inserting dbLog $uid")
@@ -45,11 +47,21 @@ init {
 
         logs = logs + listOf(dbLogObj)
         loading = mutableListOf(false)
-        GlobalScope.launch {
-            db.dbLogDao().insert(dbLogObj)
+        if (coroutined) {
+            GlobalScope.launch {
+                db.dbLogDao().insert(dbLogObj)
+            }
+        } else {
+            thread(start = true) {
+                    runBlocking {
+                        db.dbLogDao().insert(dbLogObj)
+                    }
+            }
         }
 
     }
+
+
 
     fun removeAll() {
         println("Deleting all logs")

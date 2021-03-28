@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlin.concurrent.thread
 
 class JsonParsingViewModel (application: Application) : AndroidViewModel(application) {
 
@@ -29,25 +30,34 @@ class JsonParsingViewModel (application: Application) : AndroidViewModel(applica
         }
     }
 
-    fun parseJson() {
-
-        println("Parsing big json")
-
-        GlobalScope.launch {
-            loading = mutableListOf(true)
-            val items = retrofitService.getPhotoList().execute().body()
-            viewModelScope.launch {
-                if (items != null) {
-                    photos = items
+    fun parseJson(coroutined: Boolean) {
+        if (coroutined) {
+            println("Parsing JSON, coroutine")
+            GlobalScope.launch {
+                loading = mutableListOf(true)
+                val items = retrofitService.getPhotoList().execute().body()
+                viewModelScope.launch {
+                    if (items != null) {
+                        photos = items
+                    }
                     loading = mutableListOf(false)
                 }
             }
-
+        } else {
+            println("Parsing JSON, thread")
+            thread(start = true) {
+                    loading = mutableListOf(true)
+                    val items = retrofitService.getPhotoList().execute().body()
+                        if (items != null) {
+                            photos = items
+                        }
+                    loading = mutableListOf(false)
+            }
         }
     }
 
     fun removeAll() {
-        println("Deleting all jsons")
+        println("Deleting all JSONs")
         photos = mutableListOf()
     }
 }

@@ -45,8 +45,16 @@ fun FileCoroutineView(navController: NavController, readFileText: List<String>, 
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { fileWorkViewModel.writeIntoFile("Written ${LocalDateTime.now()}", context) }) {
-                    Text("Заполнить данными")
+                Row {
+                    Button(onClick = { fileWorkViewModel.writeIntoFile("Coroutine ${LocalDateTime.now()}",
+                        context, true) }) {
+                        Text("Корутины")
+                    }
+                    Spacer(modifier = Modifier.width(15.dp))
+                    Button(onClick = { fileWorkViewModel.writeIntoFile("Thread ${LocalDateTime.now()}",
+                        context, false) }) {
+                        Text("Потоки")
+                    }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { fileWorkViewModel.removeAll(context) }) {
@@ -60,7 +68,6 @@ fun FileCoroutineView(navController: NavController, readFileText: List<String>, 
                         Spacer(modifier = Modifier.height(5.dp))
                     }
                 }
-
             }
         },
     )

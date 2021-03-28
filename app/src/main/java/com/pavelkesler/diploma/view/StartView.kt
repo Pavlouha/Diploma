@@ -1,5 +1,6 @@
 package com.pavelkesler.diploma.view
 
+import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -36,21 +37,24 @@ fun StartPage(navController: NavController, viewModel: DbLogViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(painter  = painterResource(id = R.drawable.a), contentDescription = "")
-                Text("Пожалуйста, выберите раздел", style = typography.h6)
+                Text("Производитель: " +
+                        " ${Build.MANUFACTURER}",
+                    style = typography.h6)
+                Text("Модель: " +
+                        " ${Build.MODEL}",
+                    style = typography.h6)
+                Text("Процессор: " +
+                        " ${Build.HARDWARE}",
+                    style = typography.h6)
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { navController.navigate("threadsScreen") {
-                } }) {
-                    Text("Алгоритмы на основе потоков")
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { navController.navigate("coroutines") }) {
-                    Text("Алгоритмы на основе корутин")
+                Button(onClick = { navController.navigate("mainMenu") }) {
+                    Text("Открыть главное меню")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { viewModel.removeAll()
                     Toast.makeText(
                         context,
-                        "Database cleared",
+                        "База данных очищена",
                         Toast.LENGTH_SHORT
                     ).show()}) {
                     Text("Очистить встроенную базу данных")

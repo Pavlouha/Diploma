@@ -23,25 +23,22 @@ fun DiplomaApp(dbViewModel: DbLogViewModel, imageViewModel: ImageParseViewModel,
             composable("home") {
                 StartPage(navController, dbViewModel)
             }
-            composable("threadsScreen") {
-                ThreadView(navController)
+            composable("mainMenu") {
+                MainMenuView(navController)
             }
-            composable("coroutines") {
-                CoroutineView(navController)
-            }
-            composable("coroutinesDatabase") {
+            composable("database") {
                 DbCoroutineView(navController,dbViewModel.logs, dbViewModel)
             }
-            composable("coroutinesImages") {
+            composable("images") {
                 ImageCoroutineView(navController, imageViewModel.images, imageViewModel)
             }
-            composable("coroutinesCrypto") {
+            composable("crypto") {
                 CryptoCoroutineView(navController, cryptoViewModel.values, cryptoViewModel)
             }
-            composable("coroutinesJSON") {
+            composable("JSONs") {
                 JsonParsingCoroutineView(navController, jsonParsingViewModel.photos, jsonParsingViewModel)
             }
-            composable("coroutinesFiles") {
+            composable("files") {
                 FileCoroutineView(navController, fileWorkViewModel.textRead, fileWorkViewModel)
             }
         }

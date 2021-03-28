@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
 
     private val fileWorkViewModel by viewModels<FileWorkViewModel>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val context = applicationContext

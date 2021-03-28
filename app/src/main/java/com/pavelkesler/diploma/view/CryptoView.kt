@@ -40,8 +40,14 @@ fun CryptoCoroutineView(navController: NavController, datas: List<ByteArray>, im
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { imageViewModel.addImage() }) {
-                    Text("Произвести работу")
+                Row {
+                    Button(onClick = { imageViewModel.addImage(true) }) {
+                        Text("Корутины")
+                    }
+                    Spacer(modifier = Modifier.width(15.dp))
+                    Button(onClick = { imageViewModel.addImage(false) }) {
+                        Text("Потоки")
+                    }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { imageViewModel.removeAll() }) {

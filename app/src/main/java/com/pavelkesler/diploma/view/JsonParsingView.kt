@@ -42,13 +42,17 @@ fun JsonParsingCoroutineView(navController: NavController, datas: List<PhotoMode
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
-                    Button(onClick = { jsonParsingViewModel.parseJson() }) {
-                        Text("Заполнить данными")
+                    Button(onClick = { jsonParsingViewModel.parseJson(true) }) {
+                        Text("Корутины")
+                    }
+                    Spacer(modifier = Modifier.width(15.dp))
+                    Button(onClick = { jsonParsingViewModel.parseJson(false) }) {
+                        Text("Потоки")
+                    }
                 }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Button(onClick = { jsonParsingViewModel.removeAll() }) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = { jsonParsingViewModel.removeAll() }) {
                         Text("Очистить экран")
-                }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                if (jsonParsingViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))

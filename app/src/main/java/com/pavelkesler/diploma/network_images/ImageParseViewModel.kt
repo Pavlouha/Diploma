@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.net.URL
+import kotlin.concurrent.thread
 
 class ImageParseViewModel (application: Application) : AndroidViewModel(application) {
 
@@ -33,13 +34,23 @@ class ImageParseViewModel (application: Application) : AndroidViewModel(applicat
         }
     }
 
-    fun addImage() {
-        println("Adding image")
-        loading = mutableListOf(true)
-        GlobalScope.launch {
-            val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
-            images = images + listOf(item)
-            loading = mutableListOf(false)
+    fun addImage(coroutined: Boolean) {
+        if (coroutined) {
+            println("Adding image by Coroutine")
+            loading = mutableListOf(true)
+            GlobalScope.launch {
+                val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
+                images = images + listOf(item)
+                loading = mutableListOf(false)
+            }
+        } else {
+            println("Adding image by Thread")
+            loading = mutableListOf(true)
+            thread(start = true) {
+                    val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
+                    images = images + listOf(item)
+                    loading = mutableListOf(false)
+            }
         }
     }
 
