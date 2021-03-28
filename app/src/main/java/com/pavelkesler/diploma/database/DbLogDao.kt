@@ -16,9 +16,9 @@ interface DbLogDao {
     fun insertAll(vararg dbLogs: DbLog)
 
     @Insert
-    suspend fun insert(dbLog: DbLog)
+    fun insert(dbLog: DbLog)
 
     @Query("DELETE FROM dblog")
-   suspend fun delete()
+    fun delete()
 }
 

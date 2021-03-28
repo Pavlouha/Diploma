@@ -53,15 +53,11 @@ init {
             }
         } else {
             thread(start = true) {
-                    runBlocking {
-                        db.dbLogDao().insert(dbLogObj)
-                    }
+                db.dbLogDao().insert(dbLogObj)
             }
         }
 
     }
-
-
 
     fun removeAll() {
         println("Deleting all logs")

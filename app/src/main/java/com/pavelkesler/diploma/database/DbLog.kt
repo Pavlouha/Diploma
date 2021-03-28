@@ -3,7 +3,6 @@ package com.pavelkesler.diploma.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDateTime
 
 @Entity
 data class DbLog(
