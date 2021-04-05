@@ -18,7 +18,6 @@ import com.pavelkesler.diploma.R
 import com.pavelkesler.diploma.database.DbLogViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
-
 @Composable
 fun StartPage(navController: NavController, viewModel: DbLogViewModel) {
     val context = LocalContext.current

@@ -13,7 +13,6 @@ import com.pavelkesler.diploma.jsons.JsonParsingViewModel
 import com.pavelkesler.diploma.network_images.ImageParseViewModel
 import com.pavelkesler.diploma.ui.theme.DiplomaTheme
 
-
 class MainActivity : ComponentActivity() {
 
     private val dbLogViewModel by viewModels<DbLogViewModel>()
