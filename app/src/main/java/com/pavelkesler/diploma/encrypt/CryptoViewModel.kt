@@ -9,10 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.pavelkesler.diploma.ProcessNumber
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.security.MessageDigest
-import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
 import kotlin.concurrent.thread
 
 class CryptoViewModel (application: Application) : AndroidViewModel(application) {
@@ -30,13 +27,9 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
     init {
         keygen.init(256)
         GlobalScope.launch {
-            val key: SecretKey = keygen.generateKey()
-            val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
-            cipher.init(Cipher.ENCRYPT_MODE, key)
-            val ciphertext: ByteArray = cipher.doFinal(encryptString)
-            val iv: ByteArray = cipher.iv
+            val digest = encryption(encryptString, keygen)
             viewModelScope.launch {
-                values = listOf(ciphertext)
+                values = listOf(digest)
                 loading = mutableListOf(false)
             }
         }
@@ -48,38 +41,22 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
             for (i in 0..ProcessNumber) {
                 println("Encrypting value, coroutine $i")
                 GlobalScope.launch {
-                    val key: SecretKey = keygen.generateKey()
-                    val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
-                    cipher.init(Cipher.ENCRYPT_MODE, key)
-                    val ciphertext: ByteArray = cipher.doFinal(encryptString)
-                    val iv: ByteArray = cipher.iv
-
-                    val md = MessageDigest.getInstance("SHA-256")
-                    val digest: ByteArray = md.digest(ciphertext)
+                   val digest = encryption(encryptString, keygen)
                     viewModelScope.launch {
-                        values = values + listOf(iv)
+                        values = values + listOf(digest)
                     }
                 }
-                if (i==ProcessNumber) loading = mutableListOf(false)
             }
         } else {
             for (i in 0..ProcessNumber) {
                 thread(start = true) {
                     println("Encrypting value, thread $i")
-                    val key: SecretKey = keygen.generateKey()
-                    val cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING")
-                    cipher.init(Cipher.ENCRYPT_MODE, key)
-                    val ciphertext: ByteArray = cipher.doFinal(encryptString)
-                    val iv: ByteArray = cipher.iv
-
-                    val md = MessageDigest.getInstance("SHA-256")
-                    val digest: ByteArray = md.digest(ciphertext)
-                    values = values + listOf(iv)
-                    loading = mutableListOf(false)
+                    val digest = encryption(encryptString, keygen)
+                    values = values + listOf(digest)
                 }
-                if (i==ProcessNumber) loading = mutableListOf(false)
             }
         }
+        loading = mutableListOf(false)
     }
 
     fun removeAll() {

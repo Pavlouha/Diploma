@@ -17,7 +17,7 @@ import kotlin.concurrent.thread
 
 class ImageParseViewModel (application: Application) : AndroidViewModel(application) {
 
-    private val imgurl: URL = URL("https://www.setaswall.com/wp-content/uploads/2017/03/Artistic-Landscape-4K-Wallpaper-3840x2160-768x432.jpg")
+    private val imgurl: URL = URL("https://www.setaswall.com/wp-content/uploads/2017/03/Artistic-Landscape-4K-Wallpaper-3840x2160.jpg")
 
     var images by mutableStateOf(listOf<ImageBitmap>())
         private set
@@ -38,7 +38,7 @@ class ImageParseViewModel (application: Application) : AndroidViewModel(applicat
             for (i in 0..ProcessNumber) {
                 println("Adding image by Coroutine $i")
                 GlobalScope.launch {
-                    val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
+                    val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap()
                     images = images + listOf(item)
                     if (i==ProcessNumber) loading = mutableListOf(false)
                 }
@@ -48,7 +48,7 @@ class ImageParseViewModel (application: Application) : AndroidViewModel(applicat
             for (i in 0..ProcessNumber) {
                 println("Adding image by Thread $i")
                 thread(start = true) {
-                    val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap();
+                    val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap()
                     images = images + listOf(item)
                     if (i==ProcessNumber) loading = mutableListOf(false)
                 }
