@@ -21,4 +21,3 @@ interface DbLogDao {
     @Query("DELETE FROM dblog")
     fun delete()
 }
-

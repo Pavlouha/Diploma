@@ -1,3 +1,3 @@
 package com.pavelkesler.diploma
 
-const val ProcessNumber = 100
+const val ProcessNumber = 50
