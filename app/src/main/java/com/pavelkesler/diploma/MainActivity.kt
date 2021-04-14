@@ -11,7 +11,7 @@ import com.pavelkesler.diploma.encrypt.CryptoViewModel
 import com.pavelkesler.diploma.files.FileWorkViewModel
 import com.pavelkesler.diploma.jsons.JsonParsingViewModel
 import com.pavelkesler.diploma.network_images.ImageParseViewModel
-import com.pavelkesler.diploma.ui.theme.DiplomaTheme
+import com.pavelkesler.diploma.ui.theme.MainTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -31,9 +31,9 @@ class MainActivity : ComponentActivity() {
         val context = applicationContext
         fileWorkViewModel.readFromFile(context)
         setContent {
-            DiplomaTheme {
+            MainTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    DiplomaApp(dbLogViewModel, imageParseViewModel, cryptoViewModel, jsonParseViewModel,
+                    MainAppView(dbLogViewModel, imageParseViewModel, cryptoViewModel, jsonParseViewModel,
                     fileWorkViewModel)
                 }
             }

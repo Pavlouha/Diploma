@@ -13,9 +13,9 @@ import com.pavelkesler.diploma.network_images.ImageParseViewModel
 import com.pavelkesler.diploma.view.*
 
 @Composable
-fun DiplomaApp(dbViewModel: DbLogViewModel, imageViewModel: ImageParseViewModel,
-               cryptoViewModel: CryptoViewModel, jsonParsingViewModel: JsonParsingViewModel,
-               fileWorkViewModel: FileWorkViewModel) {
+fun MainAppView(dbViewModel: DbLogViewModel, imageViewModel: ImageParseViewModel,
+                cryptoViewModel: CryptoViewModel, jsonParsingViewModel: JsonParsingViewModel,
+                fileWorkViewModel: FileWorkViewModel) {
     val navController = rememberNavController()
 
     MaterialTheme {
