@@ -59,6 +59,7 @@ fun ImageCoroutineView(navController: NavController, datas: List<ImageBitmap>, i
                 LazyColumn {
                     items(datas) {
                        androidx.compose.foundation.Image(bitmap = it, contentDescription = "",)
+                        Spacer(modifier = Modifier.height(5.dp))
                     }
                 }
             }
