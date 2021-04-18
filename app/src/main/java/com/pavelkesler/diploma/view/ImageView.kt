@@ -10,14 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pavelkesler.diploma.network_images.ImageParseViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable
-fun ImageCoroutineView(navController: NavController, datas: List<ImageBitmap>, imageViewModel: ImageParseViewModel) {
+fun ImageCoroutineView(navController: NavController, imageViewModel: ImageParseViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,7 +56,7 @@ fun ImageCoroutineView(navController: NavController, datas: List<ImageBitmap>, i
                 Spacer(modifier = Modifier.height(16.dp))
                 if (imageViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 LazyColumn {
-                    items(datas) {
+                    items(imageViewModel.images) {
                        androidx.compose.foundation.Image(bitmap = it, contentDescription = "",)
                         Spacer(modifier = Modifier.height(5.dp))
                     }

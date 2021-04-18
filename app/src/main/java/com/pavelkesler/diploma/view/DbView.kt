@@ -17,7 +17,7 @@ import com.pavelkesler.diploma.database.DbLogViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable
-fun DbCoroutineView(navController: NavController, datas: List<DbLog>, viewModel: DbLogViewModel) {
+fun DbCoroutineView(navController: NavController, viewModel: DbLogViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -54,7 +54,7 @@ fun DbCoroutineView(navController: NavController, datas: List<DbLog>, viewModel:
                 if (viewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 Text("Данные в базе:", style = typography.h6)
                 LazyColumn {
-                    items(datas) {
+                    items(viewModel.logs) {
                         Text(text = "${it.dbEvent} on ${it.dateAndTime}", modifier = Modifier
                             .padding(16.dp, 4.dp, 4.dp, 4.dp)
                             .weight(1f, true))

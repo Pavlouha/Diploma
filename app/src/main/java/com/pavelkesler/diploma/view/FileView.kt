@@ -1,7 +1,6 @@
 package com.pavelkesler.diploma.view
 
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,7 +19,7 @@ import com.pavelkesler.diploma.ui.theme.AmoledBlack
 import java.time.LocalDateTime
 
 @Composable
-fun FileCoroutineView(navController: NavController, readFileText: List<String>, fileWorkViewModel: FileWorkViewModel) {
+fun FileCoroutineView(navController: NavController, fileWorkViewModel: FileWorkViewModel) {
     val context: Context = LocalContext.current
     Scaffold(
         topBar = {
@@ -62,7 +61,7 @@ fun FileCoroutineView(navController: NavController, readFileText: List<String>, 
                 }
                 if (fileWorkViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 LazyColumn {
-                    items(readFileText) {
+                    items(fileWorkViewModel.textRead) {
                         Text(text = it, modifier = Modifier
                             .padding(16.dp, 4.dp, 4.dp, 4.dp))
                         Spacer(modifier = Modifier.height(5.dp))

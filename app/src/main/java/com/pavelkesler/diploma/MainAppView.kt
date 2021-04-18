@@ -27,19 +27,19 @@ fun MainAppView(dbViewModel: DbLogViewModel, imageViewModel: ImageParseViewModel
                 MainMenuView(navController)
             }
             composable("database") {
-                DbCoroutineView(navController,dbViewModel.logs, dbViewModel)
+                DbCoroutineView(navController, dbViewModel)
             }
             composable("images") {
-                ImageCoroutineView(navController, imageViewModel.images, imageViewModel)
+                ImageCoroutineView(navController, imageViewModel)
             }
             composable("crypto") {
-                CryptoCoroutineView(navController, cryptoViewModel.values, cryptoViewModel)
+                CryptoCoroutineView(navController,  cryptoViewModel)
             }
             composable("JSONs") {
-                JsonParsingCoroutineView(navController, jsonParsingViewModel.photos, jsonParsingViewModel)
+                JsonParsingCoroutineView(navController, jsonParsingViewModel)
             }
             composable("files") {
-                FileCoroutineView(navController, fileWorkViewModel.textRead, fileWorkViewModel)
+                FileCoroutineView(navController, fileWorkViewModel)
             }
         }
     }

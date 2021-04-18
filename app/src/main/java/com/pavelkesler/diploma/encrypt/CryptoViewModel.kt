@@ -35,7 +35,7 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
         }
     }
 
-    fun addImage(coroutined: Boolean) {
+    fun encrypt(coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
             for (i in 0..ProcessNumber) {

@@ -17,7 +17,7 @@ import com.pavelkesler.diploma.jsons.PhotoModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable
-fun JsonParsingCoroutineView(navController: NavController, datas: List<PhotoModel>, jsonParsingViewModel: JsonParsingViewModel) {
+fun JsonParsingCoroutineView(navController: NavController, jsonParsingViewModel: JsonParsingViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -57,7 +57,7 @@ fun JsonParsingCoroutineView(navController: NavController, datas: List<PhotoMode
                 Spacer(modifier = Modifier.height(16.dp))
                if (jsonParsingViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 LazyColumn {
-                    items(datas) {
+                    items(jsonParsingViewModel.photos) {
                         Text(text = it.img_src, modifier = Modifier
                             .padding(16.dp, 4.dp, 4.dp, 4.dp))
                         Spacer(modifier = Modifier.height(5.dp))
