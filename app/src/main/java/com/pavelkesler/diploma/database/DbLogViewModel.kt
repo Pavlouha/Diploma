@@ -8,8 +8,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.room.Room
 import com.pavelkesler.diploma.ProcessNumber
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.time.LocalDateTime
 import kotlin.concurrent.thread
 import kotlin.random.Random
@@ -39,6 +38,10 @@ init {
     var loading by mutableStateOf(mutableListOf<Boolean>())
         private set
 
+ //   @ObsoleteCoroutinesApi
+ //   val fixedContext = newFixedThreadPoolContext(2, "fixed")
+
+  //  @ObsoleteCoroutinesApi
     fun addDbLog(event: String, coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
@@ -48,6 +51,7 @@ init {
                 // Generate ID in a simple way - from timestamp.
                 val dbLogObj = DbLog(
                     uid, event, LocalDateTime.now().toString())
+            //    CoroutineScope(fixedContext).launch {
                 GlobalScope.launch {
                     db.dbLogDao().insert(dbLogObj)
                     viewModelScope.launch {

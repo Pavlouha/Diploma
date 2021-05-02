@@ -76,11 +76,12 @@ dependencies {
 
     // Room implementation
     implementation "androidx.room:room-runtime:2.3.0"
+    // annotations
     kapt "androidx.room:room-compiler:2.3.0"
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.3.0"
-    // json parsing
+    // json parsing - retrofit
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 }

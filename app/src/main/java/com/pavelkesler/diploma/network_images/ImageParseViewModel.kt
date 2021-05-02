@@ -10,8 +10,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pavelkesler.diploma.ProcessNumber
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.net.URL
 import kotlin.concurrent.thread
 
@@ -32,11 +31,16 @@ class ImageParseViewModel (application: Application) : AndroidViewModel(applicat
             }
     }
 
+  //  @ObsoleteCoroutinesApi
+  //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
+
+  //  @ObsoleteCoroutinesApi
     fun addImage(coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
             for (i in 0..ProcessNumber) {
                 println("Adding image by Coroutine $i")
+              //  CoroutineScope(fixedContext).launch {
                 GlobalScope.launch {
                     val item = BitmapFactory.decodeStream(imgurl.openConnection().getInputStream()).asImageBitmap()
                     images = images + listOf(item)

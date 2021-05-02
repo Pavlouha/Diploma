@@ -8,8 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pavelkesler.diploma.ProcessNumber
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.File
 import kotlin.concurrent.thread
 
@@ -21,6 +20,9 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
     var loading by mutableStateOf(mutableListOf<Boolean>())
         private set
 
+  //  @ObsoleteCoroutinesApi
+  //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
+
     init {
         viewModelScope.launch {
             textRead = listOf("")
@@ -28,10 +30,12 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+  //  @ObsoleteCoroutinesApi
     fun writeIntoFile(value: String, context: Context, coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
             for (i in 0..ProcessNumber) {
+              //  CoroutineScope(fixedContext).launch {
                 GlobalScope.launch {
                     println("Writing into file (Coroutine) $i")
                     context.openFileOutput("filewrite.txt", Context.MODE_APPEND).use {

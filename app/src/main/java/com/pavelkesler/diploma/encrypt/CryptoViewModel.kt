@@ -7,8 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pavelkesler.diploma.ProcessNumber
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.crypto.KeyGenerator
 import kotlin.concurrent.thread
 
@@ -24,6 +23,9 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
 
     private val keygen: KeyGenerator = KeyGenerator.getInstance("AES")
 
+  //  @ObsoleteCoroutinesApi
+  //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
+
     init {
         keygen.init(256)
         GlobalScope.launch {
@@ -35,11 +37,13 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
         }
     }
 
+    @ObsoleteCoroutinesApi
     fun encrypt(coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
             for (i in 0..ProcessNumber) {
                 println("Encrypting value, coroutine $i")
+             //   CoroutineScope(fixedContext).launch {
                 GlobalScope.launch {
                    val digest = encryption(encryptString, keygen)
                     viewModelScope.launch {

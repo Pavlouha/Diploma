@@ -7,9 +7,20 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pavelkesler.diploma.ProcessNumber
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlin.concurrent.thread
+
+/* class  PlaygroundRun(var min: Int) : Runnable {
+
+    override fun run() {
+        // какая-либо работа
+        min = min++
+        print(min)
+    }
+
+    val p = PlaygroundRun(100)
+//    Thread(p).start()
+} */
 
 class JsonParsingViewModel (application: Application) : AndroidViewModel(application) {
 
@@ -31,11 +42,16 @@ class JsonParsingViewModel (application: Application) : AndroidViewModel(applica
         }
     }
 
+  //  @ObsoleteCoroutinesApi
+  //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
+
+ //   @ObsoleteCoroutinesApi
     fun parseJson(coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
             for (i in 0..ProcessNumber) {
-                GlobalScope.launch {
+              //  CoroutineScope(fixedContext).launch {
+                  GlobalScope.launch {
                     println("Parsing JSON, coroutine $i")
                     val items = retrofitService.getPhotoList().execute().body()
                     viewModelScope.launch {
