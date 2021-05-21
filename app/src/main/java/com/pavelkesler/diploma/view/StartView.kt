@@ -13,7 +13,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
 import com.pavelkesler.diploma.R
 import com.pavelkesler.diploma.database.DbLogViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
