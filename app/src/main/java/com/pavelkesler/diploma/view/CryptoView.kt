@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.pavelkesler.diploma.encrypt.CryptoViewModel
+import com.pavelkesler.diploma.encryption.CryptoViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable

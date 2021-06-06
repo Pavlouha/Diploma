@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.jsons
+package com.pavelkesler.diploma.json
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

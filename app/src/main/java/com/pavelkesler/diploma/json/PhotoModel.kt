@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.jsons
+package com.pavelkesler.diploma.json
 
 data class PhotoModel(
    val price: Int,

@@ -6,10 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.pavelkesler.diploma.database.DbLogViewModel
-import com.pavelkesler.diploma.encrypt.CryptoViewModel
-import com.pavelkesler.diploma.files.FileWorkViewModel
-import com.pavelkesler.diploma.jsons.JsonParsingViewModel
-import com.pavelkesler.diploma.network_images.ImageParseViewModel
+import com.pavelkesler.diploma.encryption.CryptoViewModel
+import com.pavelkesler.diploma.file.FileWorkViewModel
+import com.pavelkesler.diploma.json.JsonParsingViewModel
+import com.pavelkesler.diploma.network_image.ImageParseViewModel
 import com.pavelkesler.diploma.view.*
 
 @Composable

@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.network_images
+package com.pavelkesler.diploma.network_image
 
 import android.app.Application
 import android.graphics.BitmapFactory

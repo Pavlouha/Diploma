@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.files
+package com.pavelkesler.diploma.file
 
 import android.app.Application
 import android.content.Context

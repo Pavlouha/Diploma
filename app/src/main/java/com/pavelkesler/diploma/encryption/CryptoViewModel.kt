@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.encrypt
+package com.pavelkesler.diploma.encryption
 
 import android.app.Application
 import androidx.compose.runtime.getValue

@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.pavelkesler.diploma.network_images.ImageParseViewModel
+import com.pavelkesler.diploma.network_image.ImageParseViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable

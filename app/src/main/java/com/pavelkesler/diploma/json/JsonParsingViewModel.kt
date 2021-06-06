@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.jsons
+package com.pavelkesler.diploma.json
 
 import android.app.Application
 import androidx.compose.runtime.getValue
