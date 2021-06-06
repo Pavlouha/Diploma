@@ -1,8 +1,6 @@
-package com.pavelkesler.diploma.view
+package com.pavelkesler.diploma.ui.view
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -12,15 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.pavelkesler.diploma.network_image.ImageParseViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable
-fun ImageCoroutineView(navController: NavController, imageViewModel: ImageParseViewModel) {
+fun MainMenuView(navController: NavController) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Загрузка изображений", color= Color.White) },
+                title = { Text(text = "Главное меню", color = Color.White) },
                 backgroundColor = AmoledBlack,
                 navigationIcon = {
                     IconButton(onClick = {
@@ -32,6 +29,7 @@ fun ImageCoroutineView(navController: NavController, imageViewModel: ImageParseV
             )
         },
         content = {
+            val typography = MaterialTheme.typography
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -39,27 +37,26 @@ fun ImageCoroutineView(navController: NavController, imageViewModel: ImageParseV
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Text("Нажмите, чтобы открыть:", style = typography.h6)
                 Spacer(modifier = Modifier.height(16.dp))
-                Row {
-                    Button(onClick = { imageViewModel.addImage(true) }) {
-                        Text("Корутины")
-                    }
-                    Spacer(modifier = Modifier.width(15.dp))
-                    Button(onClick = { imageViewModel.addImage(false) }) {
-                        Text("Потоки")
-                    }
+                Button(onClick = { navController.navigate("images") }) {
+                    Text("Изображения из Сети")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { imageViewModel.removeAll() }) {
-                    Text("Очистить экран")
+                Button(onClick = { navController.navigate("JSONs") }) {
+                    Text("Загрузку JSON")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                if (imageViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
-                LazyColumn {
-                    items(imageViewModel.images) {
-                       androidx.compose.foundation.Image(bitmap = it, contentDescription = "",)
-                        Spacer(modifier = Modifier.height(5.dp))
-                    }
+                Button(onClick = { navController.navigate("database") }) {
+                    Text("Работу с базами данных")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = { navController.navigate("crypto") }) {
+                    Text("Работу с шифрованием")
+                }
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = { navController.navigate("files") }) {
+                    Text("Работу с файлами")
                 }
             }
         },

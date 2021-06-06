@@ -1,5 +1,6 @@
-package com.pavelkesler.diploma.view
+package com.pavelkesler.diploma.ui.view
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,17 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.pavelkesler.diploma.json.JsonParsingViewModel
+import com.pavelkesler.diploma.domain.file.FileWorkViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
+import java.time.LocalDateTime
 
 @Composable
-fun JsonParsingCoroutineView(navController: NavController, jsonParsingViewModel: JsonParsingViewModel) {
+fun FileCoroutineView(navController: NavController, fileWorkViewModel: FileWorkViewModel) {
+    val context: Context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Обработка JSON", color= Color.White) },
+                title = { Text(text = "Чтение файла и запись в файл", color = Color.White) },
                 backgroundColor = AmoledBlack,
                 navigationIcon = {
                     IconButton(onClick = {
@@ -41,24 +45,39 @@ fun JsonParsingCoroutineView(navController: NavController, jsonParsingViewModel:
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
-                    Button(onClick = { jsonParsingViewModel.parseJson(true) }) {
+                    Button(onClick = {
+                        fileWorkViewModel.writeIntoFile(
+                            "Coroutine ${LocalDateTime.now()}",
+                            context, true
+                        )
+                    }) {
                         Text("Корутины")
                     }
                     Spacer(modifier = Modifier.width(15.dp))
-                    Button(onClick = { jsonParsingViewModel.parseJson(false) }) {
+                    Button(onClick = {
+                        fileWorkViewModel.writeIntoFile(
+                            "Thread ${LocalDateTime.now()}",
+                            context, false
+                        )
+                    }) {
                         Text("Потоки")
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { jsonParsingViewModel.removeAll() }) {
-                        Text("Очистить экран")
+                Button(onClick = { fileWorkViewModel.removeAll(context) }) {
+                    Text("Очистить файл")
                 }
-                Spacer(modifier = Modifier.height(16.dp))
-               if (jsonParsingViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
+                if (fileWorkViewModel.loading[0]) CircularProgressIndicator() else Spacer(
+                    modifier = Modifier.height(
+                        0.dp
+                    )
+                )
                 LazyColumn {
-                    items(jsonParsingViewModel.photos) {
-                        Text(text = it.img_src, modifier = Modifier
-                            .padding(16.dp, 4.dp, 4.dp, 4.dp))
+                    items(fileWorkViewModel.textRead) {
+                        Text(
+                            text = it, modifier = Modifier
+                                .padding(16.dp, 4.dp, 4.dp, 4.dp)
+                        )
                         Spacer(modifier = Modifier.height(5.dp))
                     }
                 }

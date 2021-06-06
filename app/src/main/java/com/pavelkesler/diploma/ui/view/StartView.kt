@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.view
+package com.pavelkesler.diploma.ui.view
 
 import android.os.Build
 import android.widget.Toast
@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pavelkesler.diploma.R
-import com.pavelkesler.diploma.database.DbLogViewModel
+import com.pavelkesler.diploma.domain.database.DbLogViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable
@@ -23,38 +23,48 @@ fun StartPage(navController: NavController, viewModel: DbLogViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Добро пожаловать", color= Color.White) },
+                title = { Text(text = "Добро пожаловать", color = Color.White) },
                 backgroundColor = AmoledBlack,
             )
         },
         content = {
             val typography = MaterialTheme.typography
             Column(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(painter  = painterResource(id = R.drawable.a), contentDescription = "")
-                Text("Производитель: " +
-                        " ${Build.MANUFACTURER}",
-                    style = typography.h6)
-                Text("Модель: " +
-                        " ${Build.MODEL}",
-                    style = typography.h6)
-                Text("Процессор: " +
-                        " ${Build.HARDWARE}",
-                    style = typography.h6)
+                Image(painter = painterResource(id = R.drawable.a), contentDescription = "")
+                Text(
+                    "Производитель: " +
+                            " ${Build.MANUFACTURER}",
+                    style = typography.h6
+                )
+                Text(
+                    "Модель: " +
+                            " ${Build.MODEL}",
+                    style = typography.h6
+                )
+                Text(
+                    "Процессор: " +
+                            " ${Build.HARDWARE}",
+                    style = typography.h6
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { navController.navigate("mainMenu") }) {
                     Text("Открыть главное меню")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { viewModel.removeAll()
+                Button(onClick = {
+                    viewModel.removeAll()
                     Toast.makeText(
                         context,
                         "База данных очищена",
                         Toast.LENGTH_SHORT
-                    ).show()}) {
+                    ).show()
+                }) {
                     Text("Очистить встроенную базу данных")
                 }
             }

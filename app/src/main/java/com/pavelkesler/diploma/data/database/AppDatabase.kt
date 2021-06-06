@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.database
+package com.pavelkesler.diploma.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

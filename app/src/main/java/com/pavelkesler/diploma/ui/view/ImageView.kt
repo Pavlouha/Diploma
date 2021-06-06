@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.view
+package com.pavelkesler.diploma.ui.view
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,15 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.pavelkesler.diploma.encryption.CryptoViewModel
+import com.pavelkesler.diploma.domain.network_image.ImageParseViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
 
 @Composable
-fun CryptoCoroutineView(navController: NavController, cryptoViewModel: CryptoViewModel) {
+fun ImageCoroutineView(navController: NavController, imageViewModel: ImageParseViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Работа с шифрованием", color= Color.White) },
+                title = { Text(text = "Загрузка изображений", color = Color.White) },
                 backgroundColor = AmoledBlack,
                 navigationIcon = {
                     IconButton(onClick = {
@@ -41,25 +41,28 @@ fun CryptoCoroutineView(navController: NavController, cryptoViewModel: CryptoVie
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
-                    Button(onClick = { cryptoViewModel.encrypt(true) }) {
+                    Button(onClick = { imageViewModel.addImage(true) }) {
                         Text("Корутины")
                     }
                     Spacer(modifier = Modifier.width(15.dp))
-                    Button(onClick = { cryptoViewModel.encrypt(false) }) {
+                    Button(onClick = { imageViewModel.addImage(false) }) {
                         Text("Потоки")
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { cryptoViewModel.removeAll() }) {
+                Button(onClick = { imageViewModel.removeAll() }) {
                     Text("Очистить экран")
                 }
-                if (cryptoViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
                 Spacer(modifier = Modifier.height(16.dp))
+                if (imageViewModel.loading[0]) CircularProgressIndicator() else Spacer(
+                    modifier = Modifier.height(
+                        0.dp
+                    )
+                )
                 LazyColumn {
-                    items(cryptoViewModel.values) {
-                        Text(text = "${it.toString(Charsets.UTF_8)} on ${it.toString(Charsets.UTF_8)}", modifier = Modifier
-                            .padding(16.dp, 4.dp, 4.dp, 4.dp)
-                            .weight(1f, true))
+                    items(imageViewModel.images) {
+                        androidx.compose.foundation.Image(bitmap = it, contentDescription = "")
+                        Spacer(modifier = Modifier.height(5.dp))
                     }
                 }
             }

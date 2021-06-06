@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.json
+package com.pavelkesler.diploma.domain.json
 
 import android.app.Application
 import androidx.compose.runtime.getValue
@@ -7,6 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pavelkesler.diploma.ProcessNumber
+import com.pavelkesler.diploma.data.json.PhotoInterface
+import com.pavelkesler.diploma.data.json.PhotoModel
+import com.pavelkesler.diploma.data.json.RetrofitClient
 import kotlinx.coroutines.*
 import kotlin.concurrent.thread
 
@@ -22,7 +25,7 @@ import kotlin.concurrent.thread
 //    Thread(p).start()
 } */
 
-class JsonParsingViewModel (application: Application) : AndroidViewModel(application) {
+class JsonParsingViewModel(application: Application) : AndroidViewModel(application) {
 
     private val url: String = "https://android-kotlin-fun-mars-server.appspot.com/"
 
@@ -37,21 +40,23 @@ class JsonParsingViewModel (application: Application) : AndroidViewModel(applica
 
     init {
         GlobalScope.launch {
-            viewModelScope.launch { photos = mutableListOf()
-                loading = mutableListOf(false) }
+            viewModelScope.launch {
+                photos = mutableListOf()
+                loading = mutableListOf(false)
+            }
         }
     }
 
-  //  @ObsoleteCoroutinesApi
-  //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
+    //  @ObsoleteCoroutinesApi
+    //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
 
- //   @ObsoleteCoroutinesApi
+    //   @ObsoleteCoroutinesApi
     fun parseJson(coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
             for (i in 0..ProcessNumber) {
-              //  CoroutineScope(fixedContext).launch {
-                  GlobalScope.launch {
+                //  CoroutineScope(fixedContext).launch {
+                GlobalScope.launch {
                     println("Parsing JSON, coroutine $i")
                     val items = retrofitService.getPhotoList().execute().body()
                     viewModelScope.launch {
@@ -60,7 +65,7 @@ class JsonParsingViewModel (application: Application) : AndroidViewModel(applica
                         }
                     }
                 }
-                if (i== ProcessNumber) loading = mutableListOf(false)
+                if (i == ProcessNumber) loading = mutableListOf(false)
             }
         } else {
             for (i in 0..ProcessNumber) {
@@ -71,7 +76,7 @@ class JsonParsingViewModel (application: Application) : AndroidViewModel(applica
                         photos = (photos + items).toMutableList()
                     }
                 }
-                if (i== ProcessNumber) loading = mutableListOf(false)
+                if (i == ProcessNumber) loading = mutableListOf(false)
             }
         }
     }

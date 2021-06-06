@@ -6,11 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import com.pavelkesler.diploma.database.DbLogViewModel
-import com.pavelkesler.diploma.encryption.CryptoViewModel
-import com.pavelkesler.diploma.file.FileWorkViewModel
-import com.pavelkesler.diploma.json.JsonParsingViewModel
-import com.pavelkesler.diploma.network_image.ImageParseViewModel
+import com.pavelkesler.diploma.domain.database.DbLogViewModel
+import com.pavelkesler.diploma.domain.encryption.CryptoViewModel
+import com.pavelkesler.diploma.domain.file.FileWorkViewModel
+import com.pavelkesler.diploma.domain.json.JsonParsingViewModel
+import com.pavelkesler.diploma.domain.network_image.ImageParseViewModel
 import com.pavelkesler.diploma.ui.theme.MainTheme
 
 class MainActivity : ComponentActivity() {
@@ -33,8 +33,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             MainTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    MainAppView(dbLogViewModel, imageParseViewModel, cryptoViewModel, jsonParseViewModel,
-                    fileWorkViewModel)
+                    MainAppView(
+                        dbLogViewModel, imageParseViewModel, cryptoViewModel, jsonParseViewModel,
+                        fileWorkViewModel
+                    )
                 }
             }
         }

@@ -1,6 +1,5 @@
-package com.pavelkesler.diploma.view
+package com.pavelkesler.diploma.ui.view
 
-import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,20 +10,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.pavelkesler.diploma.file.FileWorkViewModel
+import com.pavelkesler.diploma.domain.encryption.CryptoViewModel
 import com.pavelkesler.diploma.ui.theme.AmoledBlack
-import java.time.LocalDateTime
 
 @Composable
-fun FileCoroutineView(navController: NavController, fileWorkViewModel: FileWorkViewModel) {
-    val context: Context = LocalContext.current
+fun CryptoCoroutineView(navController: NavController, cryptoViewModel: CryptoViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Чтение файла и запись в файл", color= Color.White) },
+                title = { Text(text = "Работа с шифрованием", color = Color.White) },
                 backgroundColor = AmoledBlack,
                 navigationIcon = {
                     IconButton(onClick = {
@@ -45,26 +41,32 @@ fun FileCoroutineView(navController: NavController, fileWorkViewModel: FileWorkV
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Row {
-                    Button(onClick = { fileWorkViewModel.writeIntoFile("Coroutine ${LocalDateTime.now()}",
-                        context, true) }) {
+                    Button(onClick = { cryptoViewModel.encrypt(true) }) {
                         Text("Корутины")
                     }
                     Spacer(modifier = Modifier.width(15.dp))
-                    Button(onClick = { fileWorkViewModel.writeIntoFile("Thread ${LocalDateTime.now()}",
-                        context, false) }) {
+                    Button(onClick = { cryptoViewModel.encrypt(false) }) {
                         Text("Потоки")
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { fileWorkViewModel.removeAll(context) }) {
-                    Text("Очистить файл")
+                Button(onClick = { cryptoViewModel.removeAll() }) {
+                    Text("Очистить экран")
                 }
-                if (fileWorkViewModel.loading[0]) CircularProgressIndicator() else Spacer(modifier = Modifier.height(0.dp))
+                if (cryptoViewModel.loading[0]) CircularProgressIndicator() else Spacer(
+                    modifier = Modifier.height(
+                        0.dp
+                    )
+                )
+                Spacer(modifier = Modifier.height(16.dp))
                 LazyColumn {
-                    items(fileWorkViewModel.textRead) {
-                        Text(text = it, modifier = Modifier
-                            .padding(16.dp, 4.dp, 4.dp, 4.dp))
-                        Spacer(modifier = Modifier.height(5.dp))
+                    items(cryptoViewModel.values) {
+                        Text(
+                            text = "${it.toString(Charsets.UTF_8)} on ${it.toString(Charsets.UTF_8)}",
+                            modifier = Modifier
+                                .padding(16.dp, 4.dp, 4.dp, 4.dp)
+                                .weight(1f, true)
+                        )
                     }
                 }
             }

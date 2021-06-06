@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.encryption
+package com.pavelkesler.diploma.data.encryption
 
 import java.security.MessageDigest
 import javax.crypto.Cipher

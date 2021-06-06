@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.file
+package com.pavelkesler.diploma.domain.file
 
 import android.app.Application
 import android.content.Context
@@ -8,8 +8,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pavelkesler.diploma.ProcessNumber
-import kotlinx.coroutines.*
-import java.io.File
+import com.pavelkesler.diploma.data.file.FileRepo
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlin.concurrent.thread
 
 class FileWorkViewModel(application: Application) : AndroidViewModel(application) {
@@ -20,8 +21,8 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
     var loading by mutableStateOf(mutableListOf<Boolean>())
         private set
 
-  //  @ObsoleteCoroutinesApi
-  //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
+    //  @ObsoleteCoroutinesApi
+    //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
 
     init {
         viewModelScope.launch {
@@ -30,19 +31,17 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-  //  @ObsoleteCoroutinesApi
+    //  @ObsoleteCoroutinesApi
     fun writeIntoFile(value: String, context: Context, coroutined: Boolean) {
         loading = mutableListOf(true)
         if (coroutined) {
             for (i in 0..ProcessNumber) {
-              //  CoroutineScope(fixedContext).launch {
+                //  CoroutineScope(fixedContext).launch {
                 GlobalScope.launch {
                     println("Writing into file (Coroutine) $i")
-                    context.openFileOutput("filewrite.txt", Context.MODE_APPEND).use {
-                        it.write(value.toByteArray())
-                    }
-                    if (i== ProcessNumber) {
-                        val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
+                    FileRepo.write(context, value)
+                    if (i == ProcessNumber) {
+                        val read = FileRepo.read(context)
                         viewModelScope.launch {
                             textRead = listOf(read)
                             loading = mutableListOf(false)
@@ -55,24 +54,23 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
             for (i in 0..ProcessNumber) {
                 thread(start = true) {
                     println("Writing into file (Thread) $i")
-                    context.openFileOutput("filewrite.txt", Context.MODE_APPEND).use {
-                        it.write(value.toByteArray())
-                    }
-                    if (i== ProcessNumber) {
-                        val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
-                        textRead = listOf(read)
-                        loading = mutableListOf(false)
-                    }
+                    FileRepo.write(context, value)
+                }
+                if (i == ProcessNumber) {
+                    val read = FileRepo.read(context)
+                    textRead = listOf(read)
+                    loading = mutableListOf(false)
                 }
             }
         }
     }
 
+
     fun readFromFile(context: Context) {
         println("Read file")
         GlobalScope.launch {
             try {
-                val read = context.openFileInput("filewrite.txt").bufferedReader().readText()
+                val read = FileRepo.read(context)
                 viewModelScope.launch {
                     textRead = listOf(read)
                 }
@@ -87,8 +85,7 @@ class FileWorkViewModel(application: Application) : AndroidViewModel(application
         println("Clearing file")
         textRead = listOf("")
         GlobalScope.launch {
-            val file = File(context.filesDir, "filewrite.txt")
-            file.delete()
+            FileRepo.delete(context)
         }
     }
 }

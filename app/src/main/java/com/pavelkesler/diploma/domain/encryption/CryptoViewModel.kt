@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.encryption
+package com.pavelkesler.diploma.domain.encryption
 
 import android.app.Application
 import androidx.compose.runtime.getValue
@@ -7,11 +7,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pavelkesler.diploma.ProcessNumber
+import com.pavelkesler.diploma.data.encryption.encryption
 import kotlinx.coroutines.*
 import javax.crypto.KeyGenerator
 import kotlin.concurrent.thread
 
-class CryptoViewModel (application: Application) : AndroidViewModel(application) {
+class CryptoViewModel(application: Application) : AndroidViewModel(application) {
 
     var values by mutableStateOf(listOf<ByteArray>())
         private set
@@ -19,12 +20,13 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
     var loading by mutableStateOf(mutableListOf<Boolean>())
         private set
 
-    private val encryptString = "Привет, меня зовут Павел, я обучаюсь в Университете ИТМО".toByteArray()
+    private val encryptString =
+        "Привет, меня зовут Павел, я обучаюсь в Университете ИТМО".toByteArray()
 
     private val keygen: KeyGenerator = KeyGenerator.getInstance("AES")
 
-  //  @ObsoleteCoroutinesApi
-  //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
+    //  @ObsoleteCoroutinesApi
+    //  val fixedContext = newFixedThreadPoolContext(2, "fixed")
 
     init {
         keygen.init(256)
@@ -43,9 +45,9 @@ class CryptoViewModel (application: Application) : AndroidViewModel(application)
         if (coroutined) {
             for (i in 0..ProcessNumber) {
                 println("Encrypting value, coroutine $i")
-             //   CoroutineScope(fixedContext).launch {
+                //   CoroutineScope(fixedContext).launch {
                 GlobalScope.launch {
-                   val digest = encryption(encryptString, keygen)
+                    val digest = encryption(encryptString, keygen)
                     viewModelScope.launch {
                         values = values + listOf(digest)
                     }

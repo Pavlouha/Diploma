@@ -1,4 +1,4 @@
-package com.pavelkesler.diploma.json
+package com.pavelkesler.diploma.data.json
 
 import retrofit2.Call
 import retrofit2.http.GET
